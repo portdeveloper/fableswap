@@ -61,6 +61,6 @@ Final score, same scale as last time. Gemma needed a human to name every bug bef
 
 One honest caveat: the browser test signs through that mock connector, so real wallet UX, the network-switch prompt, a user rejecting a transaction, never got exercised end to end. The testnet swap went through `cast` rather than the UI. If there's a bug left in this thing, it's hiding in that gap.
 
-The contracts are live and verified on Monad testnet, factory at `0x514d4aD259143c4a6bE7C2399D46CBe8B1F9E2Db` ([explorer](https://testnet.monadexplorer.com/address/0x514d4aD259143c4a6bE7C2399D46CBe8B1F9E2Db)), and the repo with the full run log is at [TODO: repo link]. If you run a model through this same gauntlet, I want to see the scorecard.
+The contracts are live and verified on Monad testnet, factory at `0x514d4aD259143c4a6bE7C2399D46CBe8B1F9E2Db` ([explorer](https://testnet.monadexplorer.com/address/0x514d4aD259143c4a6bE7C2399D46CBe8B1F9E2Db)), and the repo with the full run log is at https://github.com/portdeveloper/fableswap (the scorecard lives in `BENCHMARK.md`). If you run a model through this same gauntlet, I want to see the scorecard.
 
 Questions?
