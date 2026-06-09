@@ -27,13 +27,13 @@ A few days ago I published the Gemma 4 12B test, where a free local model wrote 
 
 ## Same test, opposite end of the scale
 
-My prompt was the same kind of one-liner I gave Gemma:
+My prompt was the same kind of one-liner I gave Gemma. Here it is in full, this is everything the model got from me up front:
 
-> I want to measure your web3 dapp generation capabilities. How should we go about this? Usually I ask an agent to create a simple dex. Let's plan first.
+> You are claude fable 5, I want to measure your web3 dapp generation capabilities. How should we go about this? Usually I ask an agent to create a simple dex. Let's plan first.
 
 The first thing it did was go find my Gemma article and copy the methodology out of it (the same compile-test-deploy gauntlet, scored by how many times a human has to step in). Which means the scoring you're about to read was partly designed by the thing being scored. Make of that what you will.
 
-It asked me a few planning questions first, things like which chain to target and whether I wanted check-ins along the way. I picked full stack with no check-ins, and it set one constraint on itself that I liked: write the AMM from scratch instead of forking Uniswap V2, because a fork only proves you can copy. Then it went off and I watched.
+It asked me a few planning questions before starting. I told it to verify everything locally first and then deploy to Monad testnet, asked for the full stack, and turned down milestone check-ins. Those three answers, plus the gas later, are the complete list of things I typed for the rest of the build. It also set one constraint on itself that I liked: write the AMM from scratch instead of forking Uniswap V2, because a fork only proves you can copy. Then it went off and I watched.
 
 ## The contracts compiled first try, and it debugged its own tests
 
@@ -57,7 +57,13 @@ The machine fought back a little (my fault, the box is a graveyard of old benchm
 
 For the testnet deploy it generated a fresh keypair, dropped the key in a gitignored `.env`, and asked me to fund the address. I sent 5 MON, which is the entire human contribution to this project. It deployed, seeded the pool, then verified the deployment the paranoid way: pulled 1,000 WMON from its own faucet contract and executed a real swap on testnet. 10 WMON in, 19.920139 USDC out, again exact against the formula. All five contracts came back `exact_match` on Monad's Sourcify, and about 1.4 MON of the 5 got spent.
 
-Final score, same scale as last time. Gemma needed a human to name every bug before it could fix one. Fable's count for the whole build was zero code-level interventions and one external one (the gas).
+Final score, same scale as last time. Gemma needed a human to name every bug before it could fix one. Fable's sheet reads:
+
+- contracts: compiled on the first attempt, never edited after their first draft
+- tests: 18/20 on the first run, both reds self-diagnosed as fixture bugs, 21/21 after one pass
+- frontend: two type-level mistakes, both found and fixed from compiler output
+- browser e2e it wrote for itself: passed first run
+- humans required: one, holding 5 testnet MON
 
 One honest caveat: the browser test signs through that mock connector, so real wallet UX, the network-switch prompt, a user rejecting a transaction, never got exercised end to end. The testnet swap went through `cast` rather than the UI. If there's a bug left in this thing, it's hiding in that gap.
 
